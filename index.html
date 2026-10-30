@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#155eef">
+  <meta name="description" content="My AI App - ব্যক্তিগত AI সহকারী">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>My AI App</title>
+  <style>
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,"Noto Sans Bengali",sans-serif;background:#f4f7ff;color:#172033}
+    header{background:#155eef;color:white;padding:22px 18px;border-radius:0 0 22px 22px}
+    h1{margin:0 0 6px;font-size:27px} header p{margin:0;opacity:.94}
+    main{max-width:720px;margin:auto;padding:16px}
+    .notice{background:#fff4d6;border:1px solid #f3d27a;border-radius:14px;padding:12px;margin:12px 0;font-size:14px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .card{background:white;border-radius:16px;padding:16px;box-shadow:0 3px 14px #10204012}
+    .card h2{font-size:18px;margin:0 0 8px}.card p{font-size:14px;line-height:1.5;color:#4b5563}
+    button,a.btn{display:inline-block;border:0;border-radius:12px;background:#155eef;color:white;padding:12px 14px;text-decoration:none;font-weight:600;font-size:15px;width:100%;text-align:center}
+    textarea,input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font:inherit;margin:6px 0 10px}
+    section{margin-top:14px}.result{white-space:pre-wrap;background:#eef4ff;padding:12px;border-radius:10px;min-height:36px}
+    footer{text-align:center;color:#64748b;font-size:12px;padding:22px}
+    @media(max-width:390px){.grid{grid-template-columns:1fr} h1{font-size:24px}}
+  </style>
+</head>
+<body>
+<header><h1>🤖 My AI App</h1><p>আপনার ব্যক্তিগত সহকারী</p></header>
+<main>
+  <div class="notice"><b>প্রথম সংস্করণ:</b> এটি মোবাইলের হোম স্ক্রিনে যোগ করা যায় এমন ওয়েব অ্যাপের নকশা। AI উত্তর ও ভিডিও ফাইল তৈরির জন্য পরে সার্ভার/API সংযোগ লাগবে।</div>
+  <div class="grid">
+    <div class="card"><h2>🤖 AI চ্যাট</h2><p>AI সহকারীর সঙ্গে কথা বলার জায়গা।</p><button onclick="show('chat')">খুলুন</button></div>
+    <div class="card"><h2>🌐 বাংলা অনুবাদ</h2><p>ইংরেজি লেখা অনুবাদের জন্য খুলুন।</p><button onclick="show('translate')">খুলুন</button></div>
+    <div class="card"><h2>▶️ YouTube</h2><p>আপনার বিষয়ের ভিডিও খুঁজুন।</p><button onclick="show('youtube')">খুলুন</button></div>
+    <div class="card"><h2>💻 Python শেখা</h2><p>সহজ কোড ও বাংলা ব্যাখ্যা।</p><button onclick="show('python')">খুলুন</button></div>
+    <div class="card"><h2>🎬 ভিডিও পরিকল্পনা</h2><p>চরিত্র ও গল্প দিয়ে দৃশ্যের পরিকল্পনা।</p><button onclick="show('video')">খুলুন</button></div>
+    <div class="card"><h2>📲 হোম স্ক্রিন</h2><p>ব্রাউজার মেনু থেকে Add to Home screen চাপুন।</p><button onclick="installHelp()">নির্দেশনা</button></div>
+  </div>
+  <section id="workspace" class="card" hidden></section>
+</main>
+<footer>My AI App • ব্যক্তিগত প্রোটোটাইপ</footer>
+<script>
+const box=document.getElementById('workspace');
+function show(which){
+ box.hidden=false;
+ const views={
+ chat:`<h2>🤖 AI চ্যাট</h2><p>এই সংস্করণে AI সার্ভার যুক্ত হয়নি।</p><p>AI উত্তর চালু করতে নিরাপদ AI ব্যাকএন্ড/API যুক্ত করতে হবে।</p>`,
+ translate:`<h2>🌐 ইংরেজি থেকে বাংলা</h2><textarea id="en" placeholder="ইংরেজি লেখা লিখুন"></textarea><button onclick="window.open('https://translate.google.com/?sl=en&tl=bn&text='+encodeURIComponent(document.getElementById('en').value)+'&op=translate','_blank')">Google Translate-এ অনুবাদ করুন</button>`,
+ youtube:`<h2>▶️ YouTube সার্চ</h2><input id="yt" placeholder="যেমন: Python শেখা বাংলায়"><button onclick="window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(document.getElementById('yt').value),'_blank')">ভিডিও খুঁজুন</button>`,
+ python:`<h2>💻 Python শেখা</h2><p><b>স্ক্রিনে লেখা দেখান:</b></p><pre>print("Hello, My AI App!")</pre><p><b>ব্যবহারকারীর নাম নিন:</b></p><pre>name = input("তোমার নাম কী? ")\nprint("স্বাগতম", name)</pre><p>print() লেখা দেখায়, input() তথ্য নেয়।</p>`,
+ video:`<h2>🎬 ৪০ মিনিটের ভিডিও পরিকল্পনা</h2><input id="character" placeholder="চরিত্রের বর্ণনা"><textarea id="story" placeholder="গল্পের বিষয়"></textarea><button onclick="makePlan()">৮টি দৃশ্যের পরিকল্পনা</button><div id="plan" class="result"></div><p>এটি পরিকল্পনা, ভিডিও ফাইল নয়। আসল ভিডিও তৈরিতে আলাদা ভিডিও জেনারেটর লাগবে।</p>`
+ };
+ box.innerHTML=views[which]; box.scrollIntoView({behavior:'smooth'});
+}
+function makePlan(){
+ const c=document.getElementById('character').value, s=document.getElementById('story').value;
+ if(!c||!s){document.getElementById('plan').textContent='চরিত্র ও গল্প দুটোই লিখুন।';return}
+ const names=['পরিচয়','সমস্যা','লক্ষ্য','প্রথম চেষ্টা','বাধা','সমাধান','চূড়ান্ত ঘটনা','সমাপ্তি'];
+ document.getElementById('plan').textContent=names.map((n,i)=>(i+1)+'. '+n+' — ৫ মিনিট\\n'+c+'। গল্প: '+s).join('\\n\\n');
+}
+function installHelp(){alert('Chrome-এ সাইটটি খুলুন। উপরের ⋮ মেনু চাপুন → Add to Home screen / Install app → Add চাপুন।')}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+</script>
+</body>
+</html>
